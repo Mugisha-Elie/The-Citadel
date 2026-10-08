@@ -1,4 +1,4 @@
-import { of, map, tap, catchError, throwError, delay, Observable } from "rxjs";
+import { of, map, tap, catchError, throwError, delay, Observable, filter } from "rxjs";
 
 interface Mission {
   id: number;
@@ -7,12 +7,13 @@ interface Mission {
 }
 
 const missionSource$: Observable<Mission> = of({
-  id: 101,
+  id: 99,
   status: 'PENDING',
   encrypted: false,
 })
 
 missionSource$.pipe(
+  filter(mission => mission.id > 100),
   tap(mission => console.log(`[LOG]: Mission ${mission.id} received.`)),
   map(mission => {
     console.log(`[Process]: Encrypting mission data...`);
